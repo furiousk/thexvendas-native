@@ -19,6 +19,7 @@ target 'THExVendas' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+
   target 'THExVendasTests' do
     inherit! :complete
     # Pods for testing

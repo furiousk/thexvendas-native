@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo }  from 'react';
-
 import {
   SafeAreaView,
   ScrollView,
@@ -10,18 +9,21 @@ import {
   useColorScheme,
   View,
   TouchableOpacity,
-  TouchableHighlight,
   Button,
   ActivityIndicator, 
   FlatList,
   ListItem,
 } from 'react-native';
-
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { ListPersonalData, SavePersonalData, UpdatePersonalData, DeletePersonalData } from '../modules/Resource';
+import { 
+  ListPersonalData, 
+  SavePersonalData, 
+  UpdatePersonalData, 
+  DeletePersonalData 
+} from '../modules/Resource';
 
 export default Crud = () => {
 
@@ -95,7 +97,7 @@ export default Crud = () => {
                 <FlatList
                   keyExtractor={(item, index) => index}
                   data={data}
-                  renderItem={({item}) => <TouchableHighlight onPress={()=>{onSetter(item)}}><Text style={styles.item}>{item.nome} - {item.email}</Text></TouchableHighlight>}
+                  renderItem={({item}) => <TouchableOpacity onPress={()=>{onSetter(item)}}><Text style={styles.item}>{item.nome} - {item.email}</Text></TouchableOpacity>}
                 />
               </View>
             )}

@@ -14,6 +14,7 @@
 
  import Home from './src/components/Home';
  import Crud from './src/components/Crud';
+ import Camera from './src/components/Camera';
  
  const App = () => {
 
@@ -22,6 +23,7 @@
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Crud" component={Crud} />
+          <Stack.Screen name="Camera" component={Camera} />
         </Stack.Navigator>
       </NavigationContainer>
     );

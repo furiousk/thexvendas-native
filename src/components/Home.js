@@ -76,7 +76,7 @@
            <Section title="Feature CRUD" url={() => navigation.navigate('Crud')}>
              Grave informações do usuário.
            </Section>
-           <Section title="Feature Câmera" url={() => {alert("CAMERA")}}>
+           <Section title="Feature Câmera" url={() => navigation.navigate('Camera')}>
              Faça uma leitura de um código de barras.
            </Section>
            <Section title="Feature Bluetooth">
