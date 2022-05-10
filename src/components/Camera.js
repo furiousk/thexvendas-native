@@ -22,9 +22,11 @@ import {
 
 import { RNCamera } from 'react-native-camera';
 
+const windowHeight = Dimensions.get('window').height;
+
 export default function Camera() {
 
-    const [barcode, setBarCodes] = useState([]);
+    const [barcode, setBarCodes] = useState("");
     const isDarkMode = useColorScheme() === 'dark';
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -41,29 +43,33 @@ export default function Camera() {
                     }}
                     style={styles.cameraContainer}
                     type={RNCamera.Constants.Type.back}
-                    onBarCodeRead={ barcodes => {
-                        console.warn(barcodes?.data);
-                    }}/>
+                    onBarCodeRead={ ({data}) => setBarCodes(data)}/>
+            </View>
+            <View style={styles.barcode}>
+                <Text stile={styles.text}>{barcode}</Text>
             </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: "column",
-      backgroundColor: "black"
+    container: {},
+    barcode:{
+        flexDirection: 'row',
+        height: 40,
+        backgroundColor: 'white',
+        justifyContent: "center",
+        alignItems: "center"
     },
     touchable: {
-      padding: 16
+        padding: 16
     },
     text: {
-      fontSize: 21,
-      color: "rgb(0,122,255)"
+        fontSize: 21,
+        color: "rgb(0,122,255)"
     },
     cameraContainer: {
-      height: Dimensions.get('window').height,
-      borderWidth: 1,
+        height: (windowHeight/2),
+        borderWidth: 1,
     }
-  });
+});

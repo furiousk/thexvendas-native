@@ -79,11 +79,8 @@
            <Section title="Feature Câmera" url={() => navigation.navigate('Camera')}>
              Faça uma leitura de um código de barras.
            </Section>
-           <Section title="Feature Bluetooth">
+           <Section title="Feature Bluetooth" url={() => navigation.navigate('Bluetooth')}>
              Ativar o bluetooth e visualizar as conexões.
-           </Section>
-           <Section title="Feature Listar Conexões">
-             Visualizar conexões salvas.
            </Section>
            <Section title="Feature Integração Gateway">
              Integração com gateway de pagamento.
