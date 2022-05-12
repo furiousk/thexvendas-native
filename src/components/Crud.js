@@ -93,7 +93,6 @@ export default Crud = () => {
             {isLoading ? 
             <ActivityIndicator/> : (
               <View style={styles.container}>
-              {console.log(data)}
                 <FlatList
                   keyExtractor={(item, index) => index}
                   data={data}
