@@ -108,7 +108,7 @@ Abaixo segue o banco JSON, basta copiar e colar em um arquivo [.json]
 Em seguida, rode o comando abaixo, na mesma pasta do arquivo acima.
 
 ```
-json-server db.json
+json-server --host xxx.xxx.xxx.xxx (dabase ip) file.json --watch
 ```
 
 ## Linguagens, dependencias e libs utilizadas :books
