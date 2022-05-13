@@ -20,6 +20,8 @@ target 'THExVendas' do
   )
 
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
   target 'THExVendasTests' do
     inherit! :complete
     # Pods for testing

@@ -6,7 +6,6 @@ import {
   Text,
   useColorScheme,
   View,
-  Platform,
 } from 'react-native';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {RNCamera} from 'react-native-camera';
@@ -17,63 +16,55 @@ export default function Camera() {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
   const CameraComponent = () => {
-    if (Platform.OS === 'ios') {
-      return (
-        <RNCamera
-          ref={ref => {
+    return (
+      <RNCamera
+        ref={ref => {
+          if (!this.camera) {
             this.camera = ref;
-          }}
-          style={styles.cameraContainer}
-          type={RNCamera.Constants.Type.back}
-          onBarCodeRead={({data}) => setBarCodes(data)}
-        />
-      );
-    } else {
-      return (
-        <RNCamera
-          ref={ref => {
-            this.camera = ref;
-          }}
-          style={styles.cameraContainer}
-          type={RNCamera.Constants.Type.back}
-          onGoogleVisionBarcodesDetected={({data}) => setBarCodes(data)}
-        />
-      );
-    }
+          }
+        }}
+        captureAudio={false}
+        style={styles.cameraContainer}
+        type={RNCamera.Constants.Type.back}
+        onBarCodeRead={({data}) => setBarCodes(data)}
+      />
+    );
   };
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <Header titleL1="Feature Câmera" titleL2="" />
-      <View style={styles.container}>
-        <CameraComponent />
-      </View>
-      <View style={styles.barcode}>
-        <Text stile={styles.text}>{barcode}</Text>
+      <View style={[styles.container, backgroundStyle]}>
+        <View>
+          <CameraComponent />
+        </View>
+        <View style={[styles.barcode, backgroundStyle]}>
+          <Text>{barcode}</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    height: '100%',
+  },
   barcode: {
+    marginTop: 100,
     flexDirection: 'row',
-    height: 40,
-    backgroundColor: 'white',
+    height: '10%',
     justifyContent: 'center',
-    alignItems: 'center',
+    padding: 15,
   },
   touchable: {
     padding: 16,
   },
-  text: {
-    fontSize: 21,
-    color: 'rgb(0,122,255)',
-  },
   cameraContainer: {
-    borderWidth: 1,
+    marginTop: 260,
+    height: '10%',
   },
 });
