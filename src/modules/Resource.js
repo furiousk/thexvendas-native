@@ -1,7 +1,7 @@
 const Worker = 'debug';
 const IPS = {
-  debug: 'http://192.168.0.59:3000',
-  tst: 'http://192.168.0.59:3000',
+  debug: 'http://192.168.1.107:3000',
+  tst: 'http://192.168.1.107:3000',
 };
 
 const _Req = (url, verb, successCaller, data, errorCaller) => {

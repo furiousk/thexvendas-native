@@ -40,9 +40,9 @@ export default Crud = () => {
     });
 
   const onSetter = item => {
-    onChangeName(item?.nome || null);
-    onChangeEmail(item?.email || null);
-    onChangeId(item?.id || null);
+    onChangeName(item?.nome || '');
+    onChangeEmail(item?.email || '');
+    onChangeId(item?.id || '');
   };
 
   const onClickUpdate = id => {
@@ -76,7 +76,7 @@ export default Crud = () => {
       { flex: 1 }
       ]}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Header />
+      <Header titleL1="Feature Crud" titleL2=""/>
       <View
         style={
           [
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   containerContent: {
     padding: 10,
-    height: '100%',
+    height: 170,
   },
   item: {
     padding: 10,

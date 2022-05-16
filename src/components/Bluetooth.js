@@ -47,6 +47,7 @@ export default function Bluetooth() {
   };
 
   useEffect(() => {
+
     manager.onStateChange(state => {
       const subscription = manager.onStateChange(async state => {
         const newLogData = logData;
@@ -57,6 +58,7 @@ export default function Bluetooth() {
       }, true);
       return () => subscription.remove();
     });
+
   }, [manager]);
 
   return (

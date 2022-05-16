@@ -6,7 +6,7 @@
  * @flow
 */
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, LogBox } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,6 +18,9 @@ import Home from './src/components/Home';
 import Crud from './src/components/Crud';
 import Camera from './src/components/Camera';
 import Bluetooth from './src/components/Bluetooth';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const App = () => {
 

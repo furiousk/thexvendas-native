@@ -11,10 +11,14 @@ import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {RNCamera} from 'react-native-camera';
 
 export default function Camera() {
+
   const [barcode, setBarCodes] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+  const textStyle = {
+    color: isDarkMode ? '#fff' : '#000',
   };
 
   const CameraComponent = () => {
@@ -38,11 +42,9 @@ export default function Camera() {
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <Header titleL1="Feature Câmera" titleL2="" />
       <View style={[styles.container, backgroundStyle]}>
-        <View>
-          <CameraComponent />
-        </View>
+        <CameraComponent/>
         <View style={[styles.barcode, backgroundStyle]}>
-          <Text>{barcode}</Text>
+          <Text style={textStyle}>{barcode}</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -51,20 +53,20 @@ export default function Camera() {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: '70%',
   },
   barcode: {
-    marginTop: 100,
+    marginTop: 5,
     flexDirection: 'row',
-    height: '10%',
     justifyContent: 'center',
-    padding: 15,
+    alignItems: 'center',
+    height: '15%',
   },
   touchable: {
     padding: 16,
   },
   cameraContainer: {
-    marginTop: 260,
-    height: '10%',
-  },
+    marginTop: 5,
+    height: '65%',
+  }
 });
