@@ -75,7 +75,14 @@ const Home = ({navigation}) => {
             url={() => navigation.navigate('Bluetooth')}>
             Ativar o bluetooth e visualizar as conexões.
           </Section>
-          <Section title="Feature Integração Gateway">
+          <Section
+            title="Feature Bluetooth List"
+            url={() => navigation.navigate('BluetoothList')}>
+            Visualizar as conexões salvas.
+          </Section>
+          <Section 
+            title="Feature Payment Gateway"
+            url={() => navigation.navigate('PaymentView')}>
             Integração com gateway de pagamento.
           </Section>
         </View>

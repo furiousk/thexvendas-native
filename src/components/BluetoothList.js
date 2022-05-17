@@ -10,66 +10,32 @@ import {
   FlatList,
 } from 'react-native';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
-import {BleManager} from 'react-native-ble-plx';
-import {SaveBluetoothData, ListBluetoothData} from '../modules/Resource';
+import {ListBluetoothData} from '../modules/Resource';
 
-const manager = new BleManager();
+export default function BluetoothList() {
 
-export default function Bluetooth() {
-
-  const [scannedDevices, setScannedDevices] = useState({});
+  const [scannedDevices, setScannedDevices] = useState([]);
   const [deviceCount, setDeviceCount] = useState(0);
 
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const onScanDevices = async () => {
-    const btState = await manager.state();
-    if (btState !== 'PoweredOn') {
-      alert('Bluetooth encontra-se desligado.');
-      return false;
-    }
-    manager.startDeviceScan(null, null, async (error, device) => {
-      if (error) {
-        console.log(error);
-        return;
-      }
-      if (device) {
-        setBluetoothList(device);
-      }
-    });
-    return true;
-  };
 
-  const onSaveDevice = ({id:deviceID, name, isConnectable}) => {
-    ListBluetoothData(data => {
-        let exists = data.filter(({id}) => deviceID==id);
-        if(exists.length < 1 && name!=null){
-            SaveBluetoothData({id:deviceID, name, isConnectable}, 
-                data => console.log(data), 
-                error => console.log(error));
-        }
-    });
-  };
-
-  const setBluetoothList = ({name, id, isConnectable}) => {
-    if(name!=null){
-        const newScannedDevices = scannedDevices;
-        newScannedDevices[id] = {id, name, isConnectable};
-        setDeviceCount(Object.keys(newScannedDevices).length);
-        setScannedDevices(scannedDevices);
-    }
+  const onListDevice = () => ListBluetoothData(setBluetoothList);
+  const setBluetoothList = (device) => {
+    setDeviceCount(device.length);
+    setScannedDevices(device);
   };
 
   useEffect(() => {
-    Object.values(scannedDevices).map(device => onSaveDevice(device));
-  });
+    onListDevice();
+  },[])
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Header titleL1="Feature Bluetooth" titleL2="" />
+      <Header titleL1="Feature Bluetooth List" titleL2="" />
       <View 
 				style={
 					[
@@ -79,12 +45,6 @@ export default function Bluetooth() {
 						},
 					]
 				}>
-				<TouchableOpacity
-					style={styles.button}
-					onPress={async () => onScanDevices()}
-				>
-					<Text>Localizar dispositivos</Text>
-				</TouchableOpacity>
         <Text
         style={[
           styles.view,
@@ -93,7 +53,7 @@ export default function Bluetooth() {
           },
         ]}>
           {' '}
-          Dispositivos Localizados({deviceCount}){' '}
+          Dispositivos Gravados({deviceCount}){' '}
         </Text>
         <FlatList
           data={Object.values(scannedDevices)}

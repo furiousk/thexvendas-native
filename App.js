@@ -18,6 +18,8 @@ import Home from './src/components/Home';
 import Crud from './src/components/Crud';
 import Camera from './src/components/Camera';
 import Bluetooth from './src/components/Bluetooth';
+import BluetoothList from './src/components/BluetoothList';
+import PaymentView from './src/components/PaymentView';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -40,6 +42,8 @@ const App = () => {
         <Stack.Screen name="Crud" component={Crud} />
         <Stack.Screen name="Camera" component={Camera} />
         <Stack.Screen name="Bluetooth" component={Bluetooth} />
+        <Stack.Screen name="BluetoothList" component={BluetoothList} />
+        <Stack.Screen name="PaymentView" component={PaymentView} />
       </Stack.Navigator>
     </NavigationContainer>
   );
