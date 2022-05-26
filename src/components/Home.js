@@ -70,11 +70,11 @@ const Home = ({navigation}) => {
             url={() => navigation.navigate('Camera')}>
             Faça uma leitura de um código de barras.
           </Section>
-          <Section
+          {/* <Section
             title="Feature Bluetooth"
             url={() => navigation.navigate('Bluetooth')}>
             Ativar o bluetooth e visualizar as conexões.
-          </Section>
+          </Section> */}
           <Section
             title="Feature Bluetooth List"
             url={() => navigation.navigate('BluetoothList')}>
