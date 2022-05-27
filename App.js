@@ -20,6 +20,7 @@ import Camera from './src/components/Camera';
 // import Bluetooth from './src/components/Bluetooth';
 import BluetoothList from './src/components/BluetoothList';
 import PaymentView from './src/components/PaymentView';
+import Kitchen from './src/telas/Kitchen/index';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -44,6 +45,7 @@ const App = () => {
         {/* <Stack.Screen name="Bluetooth" component={Bluetooth} /> */}
         <Stack.Screen name="BluetoothList" component={BluetoothList} />
         <Stack.Screen name="PaymentView" component={PaymentView} />
+        <Stack.Screen name="Kitchen" component={Kitchen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

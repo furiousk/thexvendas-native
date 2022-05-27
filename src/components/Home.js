@@ -62,23 +62,20 @@ const Home = ({navigation}) => {
               },
             ]
           }>
-          <Section title="Feature CRUD" url={() => navigation.navigate('Crud')}>
+          <Section 
+            title="Feature CRUD" 
+            url={() => navigation.navigate('Crud')}>
             Grave informações do usuário.
           </Section>
+          <Section 
+            title="Feature KDS" 
+            url={() => navigation.navigate('Kitchen')}>
+            Kitchen Display
+          </Section> 
           <Section
             title="Feature Câmera"
             url={() => navigation.navigate('Camera')}>
             Faça uma leitura de um código de barras.
-          </Section>
-          {/* <Section
-            title="Feature Bluetooth"
-            url={() => navigation.navigate('Bluetooth')}>
-            Ativar o bluetooth e visualizar as conexões.
-          </Section> */}
-          <Section
-            title="Feature Bluetooth List"
-            url={() => navigation.navigate('BluetoothList')}>
-            Visualizar as conexões salvas.
           </Section>
           <Section 
             title="Feature Payment Gateway"
