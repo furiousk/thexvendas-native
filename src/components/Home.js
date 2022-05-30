@@ -52,7 +52,7 @@ const Home = ({navigation}) => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
+        {/* <Header /> */}
         <View
           style={
             [
@@ -63,15 +63,25 @@ const Home = ({navigation}) => {
             ]
           }>
           <Section 
-            title="Feature CRUD" 
-            url={() => navigation.navigate('Crud')}>
-            Grave informações do usuário.
+            title="Feature Login" 
+            url={() => navigation.navigate('Login')}>
+            Login
           </Section>
+          <Section 
+            title="Feature Company" 
+            url={() => navigation.navigate('Company')}>
+            Company
+          </Section>  
           <Section 
             title="Feature KDS" 
             url={() => navigation.navigate('Kitchen')}>
             Kitchen Display
-          </Section> 
+          </Section>  
+          <Section 
+            title="Feature CRUD" 
+            url={() => navigation.navigate('Crud')}>
+            Grave informações do usuário.
+          </Section>          
           <Section
             title="Feature Câmera"
             url={() => navigation.navigate('Camera')}>

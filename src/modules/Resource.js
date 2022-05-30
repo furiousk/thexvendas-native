@@ -1,36 +1,38 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const Worker = 'debug';
 const IPS = {
   debug: 'http://192.168.1.107:3000',
   tst: 'http://192.168.1.107:3000',
 };
 
-const _Req = (url, verb, successCaller, data, errorCaller) => {
+const _Req = async (url, verb, successCaller, data, errorCaller) => {
+  const userToken = await AsyncStorage.getItem('userToken');
   const headers = {
-    Accept: 'application/json',
+    'Accept': 'application/json',
     'Content-Type': 'application/json',
+    ...(userToken ? {'authorization': `Bearer ${userToken}`} : {})
   };
-  let config = null;
-
-  if (verb == 'GET' || verb == 'DELETE') {
-    config = {
-      method: verb,
-      headers: headers,
-    };
-  } else {
-    config = {
-      method: verb,
-      headers: headers,
-      body: JSON.stringify(data),
-    };
+  const config = {
+    method: verb,
+    headers,
+    ...((verb == 'GET' || verb == 'DELETE') ? {} : {body: JSON.stringify(data)}),
   }
 
   fetch(url, config)
-    .then(response => response.json())
-    .then(responseJson => {
-      successCaller(responseJson);
+    .then(async response => {
+      const responseJson = await response.json();
+      if (response.ok) {
+        successCaller(responseJson)
+      } else {
+        errorCaller && errorCaller(responseJson);    
+      }
     })
-    .catch(error => {
-      errorCaller(error);
+    .catch(async error => {
+      console.log('ERRRRRRRRRRR', error.text());
+      // const errorJson = await error.json();
+      // errorCaller && errorCaller(errorJson);
     });
 };
 
@@ -76,6 +78,48 @@ const ListBluetoothData = (success, error) => {
   _Req(http, verb, success, error);
 };
 
+const Authenticate = (params, success, error) => {
+  let http = 'https://stg.thexpos.net/ordercontrol/user/login';
+  let verb = 'POST';
+
+  _Req(http, verb, success, params, error);
+};
+
+const getSimplifiedCompanyList = (success, error) => {
+  let http = 'https://stg.thexpos.net/ordercontrol/company/getsimplifiedcompanylist';
+  let verb = 'GET';
+
+  _Req(http, verb, success, {}, error);
+};
+
+const changeCompany = ({companyId, keepAlive}, success, error) => {
+  let http = `https://stg.thexpos.net/ordercontrol/user/changecompany?companyId=${companyId}&keepAlive=${keepAlive}`;
+  let verb = 'POST';
+
+  _Req(http, verb, success, {companyId, keepAlive}, error);
+};
+
+const getKdsGroups = (success, error) => {
+  let http = 'https://stg.thexpos.net/ordercontrol/ordercontrol/kitchen/kdsgroups';
+  let verb = 'GET';
+
+  _Req(http, verb, success, {}, error);
+};
+
+const getOrdersByStatus = (success, error) => {
+  let http = 'https://stg.thexpos.net/ordercontrol/kitchen/ordersbystatus';
+  let verb = 'GET';
+
+  _Req(http, verb, success, {}, error);
+};
+
+const webSocketOrdes = (success, error) => {
+  let http = 'https://stg.thexpos.net/signalrserver/poskds';
+  let verb = 'GET';
+
+  _Req(http, verb, success, {}, error);
+};
+
 export {
   SavePersonalData,
   UpdatePersonalData,
@@ -83,4 +127,10 @@ export {
   SaveBluetoothData,
   ListPersonalData,
   ListBluetoothData,
+  Authenticate,
+  getSimplifiedCompanyList,
+  changeCompany,
+  getKdsGroups,
+  getOrdersByStatus,
+  webSocketOrdes
 };
