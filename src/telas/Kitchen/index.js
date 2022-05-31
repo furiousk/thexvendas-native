@@ -1,23 +1,24 @@
 import React from 'react'
 import {
-    SafeAreaView,
-    FlatList
+    SafeAreaView    
 } from 'react-native';
 
-import usePedidos from '../../hooks/usePedidos';
-import Cartoes from './componentes/Cartoes';
+import { NavigationContainer } from '@react-navigation/native';
+import { Queue, Preparing, Ready } from './componentes/OrderByStatus'; 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
 
 export default Kitchen = () => {
-    const lista = usePedidos(0);
     return (
-        <SafeAreaView>
-            <FlatList 
-                data={lista}
-                renderItem={
-                    ({ item }) => <Cartoes {...item} aoPressionar={() => {}} />
-                }
-                keyExtractor={({ mesa }) => mesa}     
-            />    
+        <SafeAreaView style={{ flex:1 }}>            
+            <NavigationContainer independent>
+              <Tab.Navigator>
+                <Tab.Screen name="Na Fila" component={Queue} />
+                <Tab.Screen name="Em preparo" component={Preparing} />
+                <Tab.Screen name="Pronto" component={Ready} />
+              </Tab.Navigator>                            
+            </NavigationContainer>
         </SafeAreaView>    
     );
 }

@@ -5,6 +5,7 @@ const gerarNumeroAleatorio = (min, max) => {
 const pedidos = {
     lista: [
         {
+            id: 1,
             tempo: gerarNumeroAleatorio(1, 20),
             mesa: "Mesa 2",
             garcom: "Leonardo Souza",
@@ -21,6 +22,7 @@ const pedidos = {
 
         },
         {
+            id: 2,
             tempo: gerarNumeroAleatorio(1, 20),
             mesa: "Mesa 6",
             garcom: "Luis Carlos Sousa",
@@ -42,6 +44,7 @@ const pedidos = {
 
         },
         {
+            id: 3,
             tempo: gerarNumeroAleatorio(1, 20),
             mesa: "Mesa 3",
             garcom: "Felipe Matos",
@@ -58,6 +61,7 @@ const pedidos = {
 
         },
         {
+            id: 4,
             tempo: gerarNumeroAleatorio(1, 20),
             mesa: "Mesa 1",
             garcom: "Filipe Silva",
@@ -74,6 +78,7 @@ const pedidos = {
 
         },
         {
+            id: 5,
             tempo: gerarNumeroAleatorio(1, 20),
             mesa: "Mesa 5",
             garcom: "Caio Régis",

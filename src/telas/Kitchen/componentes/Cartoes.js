@@ -6,7 +6,7 @@ const tempoEmMinutos = (tempo) => {
     return `${tempo} min`;
 }
 
-export default function Cartoes({tempo, mesa, garcom, items, numero, aoPressionar }){
+export default function Cartoes({tempo, mesa, garcom, items, numero, statusPedido, aoPressionar }){
     const tempoTexto = useMemo(
         () => tempoEmMinutos(tempo),
         [tempo]

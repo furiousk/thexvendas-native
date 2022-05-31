@@ -24,6 +24,7 @@ import PaymentView from './src/components/PaymentView';
 import Kitchen from './src/telas/Kitchen/index';
 import Company from './src/components/Company';
 import Login from './src/components/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,8 +51,9 @@ const onLoginError = (error) => {
 }
 
 const App = () => {
+  //AsyncStorage.clear();
   const [state, dispatch] = useReducer(reducer, {...initialState});  
-  console.log('state', state);
+  //console.log('state', state);
   getUserStorage(dispatch);
   const isDarkMode = useColorScheme() === 'dark';
   if (state?.error) {
