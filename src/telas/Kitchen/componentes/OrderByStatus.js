@@ -1,26 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import usePedidos from '../../../hooks/usePedidos';
-import Cartoes from './Cartoes';
+import Cards from './Cards';
+import { getOrdersByStatus } from '../modules/Resource';
 
 export function Queue(){
-    return <OrderByStatus statusPedido={0}/>;
+    return <OrderByStatus OrderStatus={0} />;
 }
 export function Preparing(){
-    return <OrderByStatus statusPedido={1}/>;
+    return <OrderByStatus OrderStatus={1} />;
 }
 export function Ready(){
-    return <OrderByStatus statusPedido={2}/>;
+    return <OrderByStatus OrderStatus={2} />;
 }
 
-export default function OrderByStatus({statusPedido}) {    
-    const lista = usePedidos(statusPedido);
-    const cards = ({ item }) => <Cartoes {...item} aoPressionar={() => {}} />;    
+export default function OrderByStatus({OrderStatus}) {   
     
+    let [orderList, setOrderList] = useState([]);
+    
+    useEffect(() => {
+        getOrdersByStatus(OrderStatus,
+            list => setOrderList([...list])
+        );
+    }, []);    
+
+    const cards = ({ item }) => <Cards item={item} />;        
     return <FlatList 
-            data={lista}
+            data={orderList}
             renderItem={cards}
-            keyExtractor={({ id }) => id.toString}     
+            keyExtractor={item => item.id}     
     />
     
 }

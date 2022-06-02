@@ -2,39 +2,39 @@ import React, { useMemo } from 'react';
 import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
-const tempoEmMinutos = (tempo) => {
-    return `${tempo} min`;
-}
+// const tempoEmMinutos = (tempo) => {
+//     return `${tempo} min`;
+// }
 
-export default function Cartoes({ item }){
-    const tempoTexto = useMemo(
-        () => tempoEmMinutos(item.tempo),
-        [item.tempo]
-    );
+export default function Cards({ item }){
+    // const tempoTexto = useMemo(
+    //     () => tempoEmMinutos(item.tempo),
+    //     [item.tempo]
+    // );
 
     return <TouchableOpacity 
                 style={estilos.cartao}
                 // onPress={aoPressionar}
                 >
                 <View style={estilos.tempo}>
-                    <Text style={estilos.tempoTexto}>{ tempoTexto }</Text>
+                    <Text style={estilos.tempoTexto}>12 min</Text>
                 </View>
                 <View style={estilos.mesaGarcom}>
-                    <Text style={estilos.mesa}>{ item.mesa }</Text>
-                    <Text style={estilos.garcom}>{ item.garcom }</Text>
+                    <Text style={estilos.mesa}>{ item.deliveryPlaceName }</Text>
+                    <Text style={estilos.garcom}>{ item.accountName }</Text>
                 </View>
                 <View style={estilos.items}>                
                     { 
-                        item.items.map(i => {
+                        item.entries.map((i, index) => {
                             return (
-                                <Text>{ i.quantidade }x  { i.item }</Text>
+                                <Text key={index}>{ i.entryQuantity }x  { i.itemDescription }</Text>
                             )
                         })
                     }                    
                 </View>
                 <View style={estilos.numeroPedido}>
                     <Text style={estilos.voltar}>  &lt;  </Text>
-                    <Text style={estilos.numero}>{ item.numero }</Text>
+                    <Text style={estilos.numero}>{ item.launchCode }</Text>
                 </View>
                 
             </TouchableOpacity>

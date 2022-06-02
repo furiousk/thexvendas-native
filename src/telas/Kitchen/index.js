@@ -13,7 +13,6 @@ const Tab = createBottomTabNavigator();
 export default Kitchen = () => {
     return (
         <SafeAreaView style={{ flex:1 }}>            
-            <NavigationContainer independent>
               <Tab.Navigator
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
@@ -39,7 +38,6 @@ export default Kitchen = () => {
                 <Tab.Screen name="Em preparo" component={Preparing} />
                 <Tab.Screen name="Pronto" component={Ready} />
               </Tab.Navigator>                            
-            </NavigationContainer>
         </SafeAreaView>    
     );
 }

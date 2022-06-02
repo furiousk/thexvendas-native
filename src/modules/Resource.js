@@ -106,8 +106,8 @@ const getKdsGroups = (success, error) => {
   _Req(http, verb, success, {}, error);
 };
 
-const getOrdersByStatus = (success, error) => {
-  let http = 'https://stg.thexpos.net/ordercontrol/kitchen/ordersbystatus';
+const getOrdersByStatus = (StatusList, success, error) => {
+  let http = `https://stg.thexpos.net/ordercontrol/kitchen/ordersbystatus?ExceptSalesOrders=true&LimitAmount=10&StatusList=${StatusList}`;
   let verb = 'GET';
 
   _Req(http, verb, success, {}, error);
