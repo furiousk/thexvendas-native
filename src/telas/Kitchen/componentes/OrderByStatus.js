@@ -15,10 +15,12 @@ export function Ready(){
 
 export default function OrderByStatus({statusPedido}) {    
     const lista = usePedidos(statusPedido);
-    const cards = ({ item }) => <Cartoes {...item} aoPressionar={() => {}} />;
+    const cards = ({ item }) => <Cartoes {...item} aoPressionar={() => {}} />;    
+    
     return <FlatList 
-        data={lista}
-        renderItem={cards}
-        keyExtractor={item => item.id}     
-    /> 
+            data={lista}
+            renderItem={cards}
+            keyExtractor={({ id }) => id.toString}     
+    />
+    
 }

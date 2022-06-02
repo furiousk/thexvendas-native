@@ -28,7 +28,6 @@ const Company = ({navigation}) => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View>
           {companyList?.map((company) => {
             return (
