@@ -5,7 +5,7 @@
  * @format
  * @flow
 */
-import React, { useReducer } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { useColorScheme, LogBox, View, Text, ToastAndroid } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -14,6 +14,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getUserStorage, authEffects }  from './src/modules/Auth';
 
 import StateContext, { initialState, reducer }  from './src/modules/StateContext';
+
+import {HubConnectionBuilder, LogLevel} from '@microsoft/signalr';
 
 import Home from './src/components/Home';
 import Crud from './src/components/Crud';
@@ -52,6 +54,7 @@ const onLoginError = (error) => {
 
 const App = () => {
   //AsyncStorage.clear();
+  const [connection, setConnection] = useState<null | HubConnection>(null);
   const [state, dispatch] = useReducer(reducer, {...initialState});  
   //console.log('state', state);
   getUserStorage(dispatch);
@@ -67,6 +70,34 @@ const App = () => {
     ...authEffects(dispatch)
   };
 
+  useEffect(() => {
+    const connect = new HubConnectionBuilder()
+      .withUrl("https://stg.thexpos.net/signalrserver/poskds")
+      .withAutomaticReconnect()
+      .configureLogging(LogLevel.Debug)
+      .build();
+
+    setConnection(connect);
+  }, []);
+
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then(() => {
+          connection.invoke('AddToGroupAsync', 'KDS_ff31e5b7-25b1-4849-865f-8546f21b20a5')
+            .then((resposta) => {
+              console.log('resposta: ', resposta);
+            });
+          connection.on("ReceiveUpdateOrderStatusKdsAsync", (message) => {
+          // connection.on("arguments", (message) => {
+            console.log('message: ', message);
+          });
+        })
+        .catch((error) => console.log('error: ', error));
+    }
+  }, [connection]);
+  
   return (
     <StateContext.Provider value={providerState}>
       <NavigationContainer>

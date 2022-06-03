@@ -18,7 +18,7 @@ export function Ready() {
 export default function OrderByStatus({ statusPedido }) {
     const { state: { kdsList }, updateOrders, dispatch } = useStateContext();
 
-    console.log(kdsList);
+    // console.log(kdsList);
 
     const cards = ({ item }) => (<Cards key={item.id} item={item} onNext={nextStatus} onBack={backStatus} />);
 
