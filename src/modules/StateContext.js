@@ -1,13 +1,20 @@
 import { createContext, useContext} from 'react';
+import { KdsOrderStatus } from '../models/KdsOrderStatus';
 
 export const initialState = {
   isLoading: true,
   isSignout: false,
   userData: null,
   companyData: null,
+  kdsList: {
+    [KdsOrderStatus.Queued]: [],
+    [KdsOrderStatus.InPreparation]: [],
+    [KdsOrderStatus.Ready]: [],
+  }
 };
 
 const StateContext = createContext();
+const displayIdDefault = '00000000-0000-0000-0000-000000000000';
 
 export function useStateContext() {
   return useContext(StateContext);
@@ -51,6 +58,19 @@ export function reducer(state, action) {
       isSignout: false,
       companyData: action.companyData,
       error: null
+      };
+  case 'GET_ORDERS':
+      return {
+      ...state,
+      kdsList: {
+        ...state.kdsList,
+        [KdsOrderStatus.Queued]: action.orders
+          .filter(o => (o.kdsOrderStatus === KdsOrderStatus.Queued) && (o.displayId === displayIdDefault)),
+        [KdsOrderStatus.InPreparation]: action.orders
+          .filter(o => (o.kdsOrderStatus === KdsOrderStatus.InPreparation) && (o.displayId === displayIdDefault)),
+        [KdsOrderStatus.Ready]: action.orders
+          .filter(o => (o.kdsOrderStatus === KdsOrderStatus.Ready) && (o.displayId === displayIdDefault)),
+      },
       };
   }
 }

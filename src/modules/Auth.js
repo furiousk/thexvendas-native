@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Authenticate, changeCompany } from './Resource';
+import { Authenticate, changeCompany, getOrdersByStatus, updateOrders } from './Resource';
 
 const getUserStorage = (dispatch) => {
     useEffect(() => {
@@ -50,6 +50,14 @@ const authEffects = (dispatch) => {
                         .then(() => dispatch({ type: 'COMPANY_SIGN_IN', companyData }));
                 },
                 (error) => dispatch({ type: 'SIGN_ERROR', error }),
+            );
+        },
+        updateOrders: async (order) => {
+            updateOrders(
+                order, 
+                (success) => getOrdersByStatus(
+                    (orders) => dispatch({ type: 'GET_ORDERS', orders }),
+                ),
             );
         },
         }),

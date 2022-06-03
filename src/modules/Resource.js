@@ -30,7 +30,7 @@ const _Req = async (url, verb, successCaller, data, errorCaller) => {
       }
     })
     .catch(async error => {
-      console.log('ERRRRRRRRRRR', error.text());
+      console.log('ERRRRRRR >>', JSON.stringify(error));
       // const errorJson = await error.json();
       // errorCaller && errorCaller(errorJson);
     });
@@ -113,6 +113,13 @@ const getOrdersByStatus = (success, error) => {
   _Req(http, verb, success, {}, error);
 };
 
+const updateOrders = (order, success, error) => {
+  let http = 'https://stg.thexpos.net/ordercontrol/kitchen/updateordersstatus';
+  let verb = 'PUT';
+
+  _Req(http, verb, success, order, error);
+};
+
 const webSocketOrdes = (success, error) => {
   let http = 'https://stg.thexpos.net/signalrserver/poskds';
   let verb = 'GET';
@@ -132,5 +139,6 @@ export {
   changeCompany,
   getKdsGroups,
   getOrdersByStatus,
-  webSocketOrdes
+  webSocketOrdes,
+  updateOrders
 };

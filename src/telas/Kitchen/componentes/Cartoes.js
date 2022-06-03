@@ -1,43 +1,50 @@
 import React, { useMemo } from 'react';
-import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 
-const tempoEmMinutos = (tempo) => {
-    return `${tempo} min`;
-}
+const diff_minutes = (dtStart) => {
+    const now = Date.now();
+    dtStart = new Date(dtStart);
+    let diff =(now - dtStart.getTime()) / 1000;
+    diff /= 60;
+    const min = Math.abs(Math.round(diff));
+    return `${min} min`;
+ }
 
-export default function Cartoes({id, tempo, mesa, garcom, items, numero, statusPedido, aoPressionar }){
+export default function Cartoes({item, onNext, onBack }){
     const tempoTexto = useMemo(
-        () => tempoEmMinutos(tempo),
-        [tempo]
+        () => diff_minutes(item.salesOrderDate),
+        [item.salesOrderDate]
     );
 
-    return <TouchableOpacity
+    return (
+        <TouchableOpacity
             style={estilos.cartao}
-            onPress={aoPressionar}
-            >
-                <View style={estilos.tempo}>
-                    <Text style={estilos.tempoTexto}>{ tempoTexto }</Text>
+            onPress={() => onNext(item)}>
+                <View>
+                    <View style={estilos.tempo}>
+                        <Image href={require('./../../../res/clock.svg')} />
+                        <Text style={estilos.tempoTexto}>{ tempoTexto }</Text>
+                    </View>
+                    <View style={estilos.mesaGarcom}>
+                        <Text style={estilos.mesa}>{ item.deliveryPlaceName }</Text>
+                        <Text style={estilos.contaNome}>{ item.accountName }</Text>
+                    </View>
+                    <View style={estilos.items}>                
+                        { 
+                            item.entries?.map((item, index) => {
+                                return (
+                                    <Text key={index}>{ item.entryQuantity }x  { item.itemDescription }</Text>
+                                )
+                            })
+                        }                    
+                    </View>
+                    <View style={estilos.numeroPedido}>
+                        <Text onPress={() => onBack(item)} style={estilos.voltar}>  &lt;  </Text>
+                        <Text style={estilos.numero}>{ item.launchCode }</Text>
+                    </View>
                 </View>
-                <View style={estilos.mesaGarcom}>
-                    <Text style={estilos.mesa}>{ mesa }</Text>
-                    <Text style={estilos.garcom}>{ garcom }</Text>
-                </View>
-                <View style={estilos.items}>                
-                    { 
-                        items.map(i => {
-                            return (
-                                <Text>{ i.quantidade }x  { i.item }</Text>
-                            )
-                        })
-                    }                    
-                </View>
-                <View style={estilos.numeroPedido}>
-                    <Text style={estilos.voltar}>  &lt;  </Text>
-                    <Text style={estilos.numero}>{ numero }</Text>
-                </View>
-                
             </TouchableOpacity>
+    );
 }
 
 const estilos = StyleSheet.create({
