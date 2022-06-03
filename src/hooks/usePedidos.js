@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { KdsOrderStatus } from '../models/KdsOrderStatus';
 
 import { getOrderMock } from '../servicos/getDataMock';
 
@@ -12,7 +13,7 @@ export default function usePedidos(statusPedido) {
         );
         let novaLista = retorno.lista;
         
-        if (statusPedido>=0) {
+        if (statusPedido >= KdsOrderStatus.Queued) {
             novaLista = novaLista.filter(
                 (pedido) => pedido.statusPedido == statusPedido
             );
