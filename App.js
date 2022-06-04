@@ -16,6 +16,7 @@ import { getUserStorage, authEffects }  from './src/modules/Auth';
 import StateContext, { initialState, reducer }  from './src/modules/StateContext';
 
 import {HubConnectionBuilder, LogLevel} from '@microsoft/signalr';
+import {Notifications} from 'react-native-notifications';
 
 import Home from './src/components/Home';
 import Crud from './src/components/Crud';
@@ -87,11 +88,16 @@ const App = () => {
         .then(() => {
           connection.invoke('AddToGroupAsync', 'KDS_ff31e5b7-25b1-4849-865f-8546f21b20a5')
             .then((resposta) => {
-              console.log('resposta: ', resposta);
+              // console.log('resposta: ', resposta);
             });
           connection.on("ReceiveUpdateOrderStatusKdsAsync", (message) => {
-          // connection.on("arguments", (message) => {
-            console.log('message: ', message);
+
+            Notifications.postLocalNotification({
+              title: "Preparo",
+              body: "Um pedido teve seu status alterado",
+              extra: "Clique aqui para visualizar todos os pedidos"
+            });
+
           });
         })
         .catch((error) => console.log('error: ', error));

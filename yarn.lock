@@ -6426,6 +6426,11 @@
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz"
   "version" "0.0.7"
 
+"react-native-notifications@^4.3.1":
+  "integrity" "sha512-A668d+Q0/VQRjmrh+LvDpc/REA8GXgwCijXDCIlDHGMK8enmrtdxY5OANQf1VM3hecf+fD0wYFw2uqL/ZR8jgg=="
+  "resolved" "https://registry.npmjs.org/react-native-notifications/-/react-native-notifications-4.3.1.tgz"
+  "version" "4.3.1"
+
 "react-native-payments@^0.8.4":
   "integrity" "sha512-uXL6trMt4gc5UvjeehCfJjR42syWoaDg3jWDUqv298GPM60yX8NwEt2NjC6b7SfJ3k+DGaEZn+rb1zVj6I231Q=="
   "resolved" "https://registry.npmjs.org/react-native-payments/-/react-native-payments-0.8.4.tgz"
