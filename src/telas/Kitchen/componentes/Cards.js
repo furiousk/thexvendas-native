@@ -39,7 +39,9 @@ export default function Cards({ item, onNext, onBack }) {
                     }
                 </View>
                 <View style={estilos.numeroPedido}>
-                    <Text onPress={() => onBack(item)} style={estilos.voltar}>  &lt;  </Text>
+                    <View>
+                        <Text onPress={() => onBack(item)} style={item.kdsOrderStatus > 0 ? estilos.voltar : estilos.none}>  &lt; </Text>
+                    </View>
                     <Text style={estilos.numero}>{item.launchCode}</Text>
                 </View>
             </View>
@@ -48,6 +50,9 @@ export default function Cards({ item, onNext, onBack }) {
 }
 
 const estilos = StyleSheet.create({
+    none: {
+        display: 'none'
+    },
     cartao: {
         backgroundColor: '#F6F6F6',
         marginVertical: 8,
@@ -97,7 +102,7 @@ const estilos = StyleSheet.create({
         color: '#000',
         padding: 5,
         margin: 5,
-        fontSize: 18
+        fontSize: 18,
     },
     voltar: {
         padding: 5,
