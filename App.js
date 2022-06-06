@@ -15,7 +15,7 @@ import { getUserStorage, authEffects }  from './src/modules/Auth';
 
 import StateContext, { initialState, reducer }  from './src/modules/StateContext';
 
-import {HubConnectionBuilder, LogLevel} from '@microsoft/signalr';
+import {HubConnectionBuilder, HubConnectionState, LogLevel} from '@microsoft/signalr';
 import {Notifications} from 'react-native-notifications';
 
 import Home from './src/components/Home';
@@ -28,6 +28,8 @@ import Kitchen from './src/telas/Kitchen/index';
 import Company from './src/components/Company';
 import Login from './src/components/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getOrdersByStatus } from './src/modules/Resource';
+import { KdsOrderStatus} from './src/models/KdsOrderStatus';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,11 +55,14 @@ const onLoginError = (error) => {
   );
 }
 
+const throwNotification = (title, body, extra) => {
+  Notifications.postLocalNotification({title, body, extra});
+};
+
 const App = () => {
   //AsyncStorage.clear();
   const [connection, setConnection] = useState<null | HubConnection>(null);
   const [state, dispatch] = useReducer(reducer, {...initialState});  
-  //console.log('state', state);
   getUserStorage(dispatch);
   const isDarkMode = useColorScheme() === 'dark';
   if (state?.error) {
@@ -72,37 +77,67 @@ const App = () => {
   };
 
   useEffect(() => {
-    const connect = new HubConnectionBuilder()
-      .withUrl("https://stg.thexpos.net/signalrserver/poskds")
-      .withAutomaticReconnect()
-      .configureLogging(LogLevel.Debug)
-      .build();
+    if (!connection) {
+      const connect = new HubConnectionBuilder()
+        .withUrl("https://stg.thexpos.net/signalrserver/poskds")
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Information)
+        .build();
 
-    setConnection(connect);
+      setConnection(connect);
+    }
   }, []);
 
   useEffect(() => {
     if (connection) {
+      if (connection.state === HubConnectionState.Connected) {
+        return;
+      }
+
+      connection.on("ReceiveAddOrderKdsAsync", (id, companyId, data) => {
+        if (!data) return;
+        const response = JSON.parse(data);
+
+        dispatch({ type: 'NEW_ORDER', salesOrderId: response.salesOrderId });
+        getOrdersByStatus(
+          (orders) => dispatch({ type: 'GET_ORDERS', orders }),
+        );
+
+        throwNotification(
+          "Novo pedido",
+          "Um novo pedido entrou para a fila",
+          "Clique aqui para visualizar todos os pedidos"
+        );
+      });
+
+      connection.on("ReceiveUpdateOrderStatusKdsAsync", (id, companyId, data) => {
+        if (!data) return;
+        const response = JSON.parse(data);
+        getOrdersByStatus(
+          (orders) => dispatch({ type: 'GET_ORDERS', orders }),
+        );
+
+        if (response?.kdsList[0]?.status === KdsOrderStatus.Ready) {
+          throwNotification(
+            "Pedido Pronto!",
+            "Um pedido ficou pronto",
+            "Clique aqui para visualizar todos os pedidos"
+          );
+        }
+
+      });
+
       connection
         .start()
         .then(() => {
-          connection.invoke('AddToGroupAsync', 'KDS_ff31e5b7-25b1-4849-865f-8546f21b20a5')
-            .then((resposta) => {
-              // console.log('resposta: ', resposta);
-            });
-          connection.on("ReceiveUpdateOrderStatusKdsAsync", (message) => {
-
-            Notifications.postLocalNotification({
-              title: "Preparo",
-              body: "Um pedido teve seu status alterado",
-              extra: "Clique aqui para visualizar todos os pedidos"
-            });
-
-          });
+          connection.invoke('AddToGroupAsync', `KDS_${state?.companyData?.companyId}`)
+            .then((resposta) => console.log('resposta: ', resposta))
+            .catch((error) => console.log('AddToGroupAsync Error: ', error));
+          
         })
         .catch((error) => console.log('error: ', error));
     }
-  }, [connection]);
+  }, [state?.companyData?.companyId]);
   
   return (
     <StateContext.Provider value={providerState}>

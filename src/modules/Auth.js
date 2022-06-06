@@ -47,7 +47,7 @@ const authEffects = (dispatch) => {
                 {companyId, keepAlive: true}, 
                 (companyData) => {
                     AsyncStorage.setItem('userToken', companyData.newPasswordToken)
-                        .then(() => dispatch({ type: 'COMPANY_SIGN_IN', companyData }));
+                        .then(() => dispatch({ type: 'COMPANY_SIGN_IN', companyId, companyData }));
                 },
                 (error) => dispatch({ type: 'SIGN_ERROR', error }),
             );

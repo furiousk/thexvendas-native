@@ -1,16 +1,16 @@
-import React from 'react'
-import {
-    SafeAreaView    
-} from 'react-native';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { Queue, Preparing, Ready } from './componentes/OrderByStatus'; 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import { useStateContext } from '../modules/StateContext';
+import { Preparing, Queue, Ready } from './componentes/OrderByStatus';
 
 const Tab = createBottomTabNavigator();
 
-export default Kitchen = () => {
+export default Kitchen = ({navigation}) => {
+    const { state: { newKdsList}, dispatch } = useStateContext();
+
     return (
         <SafeAreaView style={{ flex:1 }}>            
             <Tab.Navigator
@@ -34,7 +34,13 @@ export default Kitchen = () => {
                 tabBarInactiveTintColor: 'gray',
             })}
         >
-            <Tab.Screen name="Na Fila" component={Queue} />
+            <Tab.Screen 
+                name="Na Fila" 
+                component={Queue} 
+                listeners={{
+                    tabPress: (e) => dispatch({type: 'NEW_ORDER_VIEWED'})
+                }}
+                options={newKdsList?.length ? { tabBarBadge: newKdsList?.length } : {}} />
             <Tab.Screen name="Em preparo" component={Preparing} />
             <Tab.Screen name="Pronto" component={Ready} />
             </Tab.Navigator>                            
